@@ -1,78 +1,145 @@
-# Create-OpenVPN-server-on-Pfsense
+# 🧱 Create an OpenVPN Server on pfSense
 
-## Setup PROCEDURE
+## ⚙️ Setup Procedure
 
-1. **As with any other system, before you make major changes, BACKUP YOUR SYSTEM.**  
-   ![Backup System](https://i.ibb.co/Y7v1v16Y/Screenshot-115.png)
+---
 
-2. **Go to System → Certificates.**  
-   Add a new Certificate Authority.  
-   Set *Descriptive Name* and *Common Name* to your liking, then click **Save**.  
-   ![Add Certificate Authority 1](https://i.ibb.co/MyDgcsJR/Screenshot-97.png)  
-   ![Add Certificate Authority 2](https://i.ibb.co/hF01q4kK/Screenshot-99.png)  
-   ![Add Certificate Authority 3](https://i.ibb.co/kW4dSgm/Screenshot-100.png)
+### 🔹 Step 1: Backup Your System  
+Before making any major configuration changes, **always create a backup** of your current pfSense setup.
 
-3. **Click the Certificates tab** to create a new certificate for the CA you just created.  
-   Under *Certificate Attributes → Certificate Type*, select **Server Certificate**.  
-   Your CA cert is now created.  
-   ![Create Server Certificate 1](https://i.ibb.co/YBPKxCW2/Screenshot-103.png)  
-   ![Create Server Certificate 2](https://i.ibb.co/YBPKxCW2/Screenshot-103.png)  
-   ![Create Server Certificate 3](https://i.ibb.co/vxN3WJcc/Screenshot-105.png)
+![Backup System](https://i.ibb.co/Y7v1v16Y/Screenshot-115.png)
 
-4. **Go to System → User Manager → Add.**  
-   This creates a new firewall user.  
-   Enter a preferred username and password.  
-   Under the *Certificate* property, check the box to create a user certificate.  
-   ![Add Firewall User 1](https://i.ibb.co/ZRYSv42r/Screenshot-106.png)  
-   ![Add Firewall User 2](https://i.ibb.co/5hVxxnrc/Screenshot-107.png)
+---
 
-5. **Set a descriptive name for the user certificate**, and set the CA to the one created in Step 2.  
-   Save and return to *System → Certificates* to confirm your user cert has been created.  
-   ![User Certificate 1](https://i.ibb.co/HfV89db6/Screenshot-108.png)  
-   ![User Certificate 2](https://i.ibb.co/fRcXkpr/Screenshot-109.png)
+### 🔹 Step 2: Create a Certificate Authority (CA)  
+Navigate to **System → Certificates** and click **Add** to create a new Certificate Authority.  
 
-6. **Go to VPN → OpenVPN → Wizards** to launch the setup wizard.  
-   ![OpenVPN Wizard 1](https://i.ibb.co/LDfbHvYL/Screenshot-110.png)  
-   ![OpenVPN Wizard 2](https://i.ibb.co/39VLmkW1/Screenshot-111.png)  
-   ![OpenVPN Wizard 3](https://i.ibb.co/YB7KTLH0/Screenshot-112.png)  
-   ![OpenVPN Wizard 4](https://i.ibb.co/bjhdyX58/Screenshot-113.png)
+- Set a **Descriptive Name** and **Common Name** to your liking.  
+- Click **Save** to complete this step.
 
-7. **Leave your port as 1194**, the OpenVPN default.  
-   If you already have a working OpenVPN server, set another port (e.g., 1195) to avoid conflict.  
-   ![Port Configuration](https://i.ibb.co/VYLwCkZ8/Screenshot-114.png)
+![Add Certificate Authority 1](https://i.ibb.co/MyDgcsJR/Screenshot-97.png)  
+![Add Certificate Authority 2](https://i.ibb.co/hF01q4kK/Screenshot-99.png)  
+![Add Certificate Authority 3](https://i.ibb.co/kW4dSgm/Screenshot-100.png)
 
-8. **In Tunnel Settings**, set the *IPv4 local network* to match your pfSense LAN interface.  
-   For the tunnel network, choose a random private subnet.  
-   Finish the setup to complete the configuration.  
-   ![Tunnel Settings 1](https://i.ibb.co/xqtBScSs/Screenshot-117.png)  
-   ![Tunnel Settings 2](https://i.ibb.co/tptYHQ5X/Screenshot-118.png)  
-   ![Tunnel Settings 3](https://i.ibb.co/hF7tm616/Screenshot-119.png)
+---
 
-9. **Verify your OpenVPN Server.**  
-   Go to *VPN → OpenVPN → Servers*.  
-   Click the pencil icon to edit and ensure both the **Peer Certificate Authority** and **Server Certificate** match the ones you created.  
-   ![Verify OpenVPN Server](https://i.ibb.co/RTW8ynQQ/Screenshot-123.png)
+### 🔹 Step 3: Create a Server Certificate  
+Go to the **Certificates** tab to create a certificate for your new CA.
 
-10. **Install the OpenVPN Client Export Package.**  
-    Go to *System → Package Manager → Available Packages*.  
-    Search for and install the **OpenVPN Client Export** package.  
-    Wait for installation to complete.  
-    ![Package Manager 1](https://i.ibb.co/hF7tm616/Screenshot-119.png)  
-    ![Package Manager 2](https://i.ibb.co/FkWxHcQ2/Screenshot-121.png)
+- Under **Certificate Attributes → Certificate Type**, select **Server Certificate**.  
+- Click **Save**.  
+Your CA certificate is now created successfully.
 
-11. **Go to VPN → OpenVPN → Client Export.**  
-    Your remote access server should be listening on port 1194 if it’s the only one created.  
-    Scroll to the *OpenVPN Clients* section — your user should appear there.  
-    Download **Most Clients**.  
-    ![Client Export 1](https://i.ibb.co/mr6PnyKS/Screenshot-124.png)  
-    ![Client Export 2](https://i.ibb.co/Q7DmGWCJ/Screenshot-125.png)
+![Create Server Certificate 1](https://i.ibb.co/YBPKxCW2/Screenshot-103.png)  
+![Create Server Certificate 2](https://i.ibb.co/YBPKxCW2/Screenshot-103.png)  
+![Create Server Certificate 3](https://i.ibb.co/vxN3WJcc/Screenshot-105.png)
 
-12. **Import the Configuration into your OpenVPN Client.**  
-    Enter your username and password.  
-    Check “Save Password” to automatically authenticate into the VPN profile.  
-    Click **Connect** to establish the VPN session.  
-    ![Client Config 1](https://i.ibb.co/Q7DmGWCJ/Screenshot-125.png)  
-    ![Client Config 2](https://i.ibb.co/mCvFqPwn/Screenshot-128.png)  
-    ![Client Config 3](https://i.ibb.co/d49nr7jD/Screenshot-129.png)  
-    ![Client Config 4](https://i.ibb.co/WvZJrZMm/Screenshot-131.png)
+---
+
+### 🔹 Step 4: Create a New Firewall User  
+Navigate to **System → User Manager → Add** to create a new pfSense user.  
+
+- Enter a **Username** and **Password** of your choice.  
+- Check the box under **Certificate** to generate a user certificate for this account.
+
+![Add Firewall User 1](https://i.ibb.co/ZRYSv42r/Screenshot-106.png)  
+![Add Firewall User 2](https://i.ibb.co/5hVxxnrc/Screenshot-107.png)
+
+---
+
+### 🔹 Step 5: Generate a User Certificate  
+Assign a **Descriptive Name** for the user certificate.  
+Select the **CA** you created in Step 2, then click **Save**.  
+
+Return to **System → Certificates** to confirm that the user certificate has been created.
+
+![User Certificate 1](https://i.ibb.co/HfV89db6/Screenshot-108.png)  
+![User Certificate 2](https://i.ibb.co/fRcXkpr/Screenshot-109.png)
+
+---
+
+### 🔹 Step 6: Launch the OpenVPN Wizard  
+Go to **VPN → OpenVPN → Wizards** to begin the guided setup process.
+
+![OpenVPN Wizard 1](https://i.ibb.co/LDfbHvYL/Screenshot-110.png)  
+![OpenVPN Wizard 2](https://i.ibb.co/39VLmkW1/Screenshot-111.png)  
+![OpenVPN Wizard 3](https://i.ibb.co/YB7KTLH0/Screenshot-112.png)  
+![OpenVPN Wizard 4](https://i.ibb.co/bjhdyX58/Screenshot-113.png)
+
+---
+
+### 🔹 Step 7: Configure OpenVPN Port and Protocol  
+By default, OpenVPN listens on **port 1194**.  
+If you already have another OpenVPN instance, you may set a different port (e.g., **1195**) to avoid conflict.
+
+> **Note:** For production environments, **UDP** is preferred over **TCP**.  
+> UDP offers faster performance and is better suited for real-time network traffic.
+
+![Port Configuration](https://i.ibb.co/VYLwCkZ8/Screenshot-114.png)
+
+---
+
+### 🔹 Step 8: Configure Tunnel Settings  
+Under **Tunnel Settings**:
+
+- I Set the **IPv4 Local Network** to match my pfSense LAN interface.  
+- I also assigned a random **Private Subnet** for the tunnel network.  
+- Review all other options and click **Finish** to complete the wizard.
+
+![Tunnel Settings 1](https://i.ibb.co/xqtBScSs/Screenshot-117.png)  
+![Tunnel Settings 2](https://i.ibb.co/tptYHQ5X/Screenshot-118.png)  
+![Tunnel Settings 3](https://i.ibb.co/hF7tm616/Screenshot-119.png)
+
+---
+
+### 🔹 Step 9: Verify OpenVPN Server Configuration  
+Go to **VPN → OpenVPN → Servers**.  
+
+Click the **Edit (pencil)** icon and confirm that both the **Peer Certificate Authority** and **Server Certificate** match the ones you created earlier.
+
+![Verify OpenVPN Server](https://i.ibb.co/RTW8ynQQ/Screenshot-123.png)
+
+---
+
+### 🔹 Step 10: Install the OpenVPN Client Export Package  
+Go to **System → Package Manager → Available Packages**.  
+
+- Search for **OpenVPN Client Export**.  
+- Click **Install**, then wait for the installation to complete.
+
+![Package Manager 1](https://i.ibb.co/hF7tm616/Screenshot-119.png)  
+![Package Manager 2](https://i.ibb.co/FkWxHcQ2/Screenshot-121.png)
+
+---
+
+### 🔹 Step 11: Export the Client Configuration  
+Navigate to **VPN → OpenVPN → Client Export**.
+
+- Ensure your **Remote Access Server** is listening on the correct port (default: 1194).  
+- Scroll down to the **OpenVPN Clients** section.  
+- Locate your user and download **Most Clients** configuration package.
+
+![Client Export 1](https://i.ibb.co/mr6PnyKS/Screenshot-124.png)  
+![Client Export 2](https://i.ibb.co/Q7DmGWCJ/Screenshot-125.png)
+
+---
+
+### 🔹 Step 12: Import and Connect the VPN Client  
+Import the downloaded configuration file into your OpenVPN client.  
+
+- Enter your **Username** and **Password**.  
+- Optionally check **Save Password** to enable automatic authentication.  
+- Click **Connect** to establish your VPN session.
+
+![Client Config 1](https://i.ibb.co/Q7DmGWCJ/Screenshot-125.png)  
+![Client Config 2](https://i.ibb.co/mCvFqPwn/Screenshot-128.png)  
+![Client Config 3](https://i.ibb.co/d49nr7jD/Screenshot-129.png)  
+![Client Config 4](https://i.ibb.co/WvZJrZMm/Screenshot-131.png)
+
+---
+
+## ✅ Conclusion  
+Your **OpenVPN Server** is now fully configured and ready to provide secure remote access through pfSense.  
+Users can authenticate with their credentials, automatically establish encrypted tunnels, and access the internal network securely.
+
 
