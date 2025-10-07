@@ -142,6 +142,6 @@ Import the downloaded configuration file into your OpenVPN client.
 Your **OpenVPN Server** is now fully configured and ready to provide secure remote access through pfSense.  
 Users can authenticate with their credentials, automatically establish encrypted tunnels, and access the internal network securely.
 
-> **Note:** Your network environment may be setup differently and thus you need to review that first and understand how you have set it up.  
+> Your network environment may be configured differently, so take time to review and understand your existing setup before proceeding.
 
 
